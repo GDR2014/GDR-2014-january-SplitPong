@@ -99,7 +99,7 @@ namespace Assets.Scripts {
             }
 
             // AI toggle
-            bool useAI = PlayerPrefs.GetInt( "AI" ) == 1;
+            bool useAI = PlayerPrefs.GetInt( "AI", 1 ) == 1;
             PlayerPrefs.SetInt( "AI", GUILayout.Toggle( useAI, "Use AI for P2" ) ? 1 : 0 );
 
 

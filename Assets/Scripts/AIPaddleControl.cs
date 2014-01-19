@@ -40,13 +40,17 @@ public class AIPaddleControl : MonoBehaviour {
         boxCollider.transform.position = originalCollider.transform.position;
 
         humanScript = GetComponent<HumanPaddleControl>();
+
+        // TODO: Move this to a function, and replace it in update as well, to reduce calls to playerprefs
+        bool ai = PlayerPrefs.GetInt( "AI", 1 ) == 1;
+        humanScript.enabled = !ai;
+        useAI = ai;
     }
 
     private void Start() {
         this.point = transform.position;
     }
 
-    // Update is called once per frame
     private void Update() {
         if( PlayerPrefs.GetInt( "AI", 1 ) == 1 ) {
             useAI = true;
@@ -102,7 +106,7 @@ public class AIPaddleControl : MonoBehaviour {
     }
 
     private void FixedUpdate() {
-
+        if( !useAI ) return;
         if( snapAxis ) fakeVerticalInputAxis = 0; // Snap to zero if direction changed
         fakeVerticalInputAxis = Mathf.MoveTowards( fakeVerticalInputAxis, fakeInputTarget, fakeInputAcceleration * Time.deltaTime );
         float vSpeed = fakeVerticalInputAxis * moveSpeed;
